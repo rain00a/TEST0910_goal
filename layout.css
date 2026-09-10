@@ -1,0 +1,215 @@
+/**
+ * layout.css
+ * 結構性版面：容器尺寸、四角固定按鈕定位（含手機安全區）、
+ * 週次膠囊橫向捲動、響應式斷點。視覺風格（色彩/字體）見 theme.css。
+ */
+
+:root {
+  --content-max-width: 640px;
+  --content-side-padding: 20px;
+}
+
+.app-shell {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 32px var(--content-side-padding) 120px;
+}
+
+.app-header {
+  margin-bottom: 20px;
+}
+
+/* --- 週次膠囊時間軸：橫向捲動 --- */
+
+.week-capsule-timeline {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding: 8px 4px 16px;
+  margin-bottom: 4px;
+  /* 隱藏捲軸但保留可捲動性，維持視覺乾淨 */
+  scrollbar-width: none;
+}
+
+.week-capsule-timeline::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- 翻頁列（月/年次；週次改用上方膠囊時間軸導覽） --- */
+
+.period-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.nav-btn {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.period-label {
+  flex: 1;
+  text-align: center;
+}
+
+.export-row {
+  text-align: right;
+  margin-bottom: 16px;
+}
+
+/* --- 清單面板與卡片排版 --- */
+
+.glass-panel {
+  padding: 20px;
+  min-height: 120px;
+}
+
+.day-group {
+  margin-bottom: 20px;
+}
+
+.day-group:last-child {
+  margin-bottom: 0;
+}
+
+.day-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --- 四角固定功能鍵定位（對應規格 2.6.1） ---
+   用 max()/calc() 讓按鈕在寬螢幕時貼齊內容欄邊緣，而非黏在螢幕最外側；
+   並用 env(safe-area-inset-*) 避開手機瀏覽器的手勢區/瀏海。 */
+
+.corner {
+  position: fixed;
+  z-index: 500;
+}
+
+.corner--top-left {
+  top: max(20px, env(safe-area-inset-top));
+  left: max(var(--content-side-padding), calc((100vw - var(--content-max-width)) / 2 + var(--content-side-padding)));
+}
+
+.corner--top-right {
+  top: max(20px, env(safe-area-inset-top));
+  right: max(var(--content-side-padding), calc((100vw - var(--content-max-width)) / 2 + var(--content-side-padding)));
+  width: 44px;
+  height: 44px;
+  font-size: 1.1rem;
+}
+
+.corner--bottom-left {
+  bottom: max(20px, calc(20px + env(safe-area-inset-bottom)));
+  left: max(var(--content-side-padding), calc((100vw - var(--content-max-width)) / 2 + var(--content-side-padding)));
+  width: 48px;
+  height: 48px;
+  font-size: 1.1rem;
+}
+
+.corner--bottom-right {
+  bottom: max(20px, calc(20px + env(safe-area-inset-bottom)));
+  right: max(var(--content-side-padding), calc((100vw - var(--content-max-width)) / 2 + var(--content-side-padding)));
+  width: 60px;
+  height: 60px;
+}
+
+.view-switcher button {
+  padding: 8px 14px;
+}
+
+/* --- 彈窗版面 --- */
+
+.modal-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  margin: 16px;
+}
+
+.search-modal-box {
+  max-width: 440px;
+}
+
+.modal-field {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.export-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.export-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.custom-range-fields {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.custom-range-fields .modal-field {
+  flex: 1;
+}
+
+.search-results {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.search-result-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+}
+
+#search-input {
+  margin-bottom: 12px;
+}
+
+/* --- 響應式：窄螢幕（手機）微調 --- */
+
+@media (max-width: 480px) {
+  .app-shell {
+    padding: 24px 16px 130px;
+  }
+
+  .app-title {
+    font-size: 1.4rem;
+  }
+
+  .corner--bottom-right {
+    width: 56px;
+    height: 56px;
+  }
+}

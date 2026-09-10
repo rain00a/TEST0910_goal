@@ -1,0 +1,407 @@
+/**
+ * theme.css
+ * 色彩、字體、元件視覺風格（對應規格第 5 節：絢麗華麗系、深空背景、玻璃擬態、漸層卡片、微動效）。
+ * 結構性版面（定位、尺寸、響應式斷點）見 layout.css。
+ */
+
+:root {
+  /* 色彩 token */
+  --bg-deep: #0b0b1f;
+  --bg-deep-2: #14142b;
+  --glass-fill: rgba(255, 255, 255, 0.06);
+  --glass-fill-strong: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glow-accent: #c77dff;
+  --text-primary: #f5f3ff;
+  --text-secondary: rgba(245, 243, 255, 0.65);
+  --text-on-gradient: #ffffff;
+  --danger: #ff6b81;
+
+  /* 字體 token */
+  --font-heading: 'Noto Serif TC', serif;
+  --font-body: 'Noto Sans TC', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--bg-deep);
+  min-height: 100vh;
+}
+
+/* --- 背景裝飾光暈 --- */
+
+.bg-decor {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  background: radial-gradient(ellipse at top, var(--bg-deep-2), var(--bg-deep) 70%);
+}
+
+.bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+}
+
+.bg-glow--1 {
+  width: 380px;
+  height: 380px;
+  top: -100px;
+  left: -80px;
+  background: #7c3aed;
+}
+
+.bg-glow--2 {
+  width: 320px;
+  height: 320px;
+  bottom: -60px;
+  right: -60px;
+  background: #f0568c;
+}
+
+.bg-glow--3 {
+  width: 260px;
+  height: 260px;
+  top: 40%;
+  right: 20%;
+  background: #14b8a6;
+  opacity: 0.2;
+}
+
+/* --- 標題與文字 --- */
+
+.app-title {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 1.75rem;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.view-label {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.count-label {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.empty-state {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 40px 0;
+}
+
+.day-heading {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin: 0 0 10px;
+}
+
+/* --- 玻璃擬態面板 --- */
+
+.glass-panel {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* --- 漸層成就卡片 --- */
+
+.achievement-item {
+  color: var(--text-on-gradient);
+  border-radius: 14px;
+  padding: 14px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  /* 卡片文字疊在漸層上，加一層淡淡暗化確保對比度足夠可讀 */
+  background-blend-mode: overlay;
+  transition: transform 0.15s ease;
+}
+
+.achievement-item:hover,
+.achievement-item:focus-visible {
+  transform: translateY(-2px);
+  outline: 2px solid var(--glow-accent);
+  outline-offset: 2px;
+}
+
+/* --- 週次膠囊時間軸 --- */
+
+.week-capsule {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  padding: 10px 18px;
+  cursor: pointer;
+  scroll-snap-align: center;
+  flex-shrink: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, background 0.25s ease;
+}
+
+.week-capsule--current {
+  color: var(--text-primary);
+  background: linear-gradient(135deg, #7c3aed, #3a86ff);
+  border-color: transparent;
+  transform: scale(1.15);
+  box-shadow: 0 0 24px var(--glow-accent);
+}
+
+/* --- 匯出連結按鈕 --- */
+
+.export-link-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.export-link-btn:hover,
+.export-link-btn:focus-visible {
+  color: var(--text-primary);
+}
+
+/* --- 導覽按鈕（月/年翻頁） --- */
+
+.nav-btn {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.nav-btn:hover,
+.nav-btn:focus-visible {
+  background: var(--glass-fill-strong);
+  outline: 2px solid var(--glow-accent);
+}
+
+/* --- 四角固定功能鍵 --- */
+
+.icon-btn,
+.add-btn {
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.icon-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.icon-btn:not(:disabled):hover,
+.icon-btn:not(:disabled):focus-visible,
+.add-btn:hover,
+.add-btn:focus-visible {
+  outline: 2px solid var(--glow-accent);
+}
+
+.add-btn {
+  background: linear-gradient(135deg, #7c3aed, #f0568c);
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(199, 125, 255, 0.5);
+}
+
+.view-switcher {
+  display: flex;
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.view-switcher button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.view-switcher button[aria-pressed='true'] {
+  color: var(--text-primary);
+  background: linear-gradient(135deg, #7c3aed, #3a86ff);
+}
+
+/* --- 彈窗（新增/編輯、匯出、搜尋共用） --- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 11, 31, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: var(--bg-deep-2);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  color: var(--text-primary);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.modal-box h2 {
+  font-family: var(--font-heading);
+  margin: 0 0 16px;
+}
+
+.modal-field span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.modal-field textarea,
+.modal-field input,
+#search-input {
+  width: 100%;
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font: inherit;
+  padding: 8px 10px;
+}
+
+.modal-field textarea::placeholder,
+#search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.input-error {
+  border-color: var(--danger) !important;
+}
+
+.modal-actions button {
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 8px 18px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #7c3aed, #3a86ff);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background: none;
+  border: 1px solid var(--danger) !important;
+  color: var(--danger);
+}
+
+.export-options,
+.export-option {
+  color: var(--text-primary);
+}
+
+.search-result-item {
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  background: var(--glass-fill);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.search-result-item:hover,
+.search-result-item:focus-visible {
+  outline: 2px solid var(--glow-accent);
+}
+
+.search-result-date {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.error-message {
+  color: var(--danger);
+}
+
+/* --- 新增成就粒子動畫 --- */
+
+.particle-burst-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2000;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: particle-fly 0.7s ease-out forwards;
+}
+
+@keyframes particle-fly {
+  from {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--dx), var(--dy)) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* --- 無障礙：尊重減少動態偏好 --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .achievement-item,
+  .week-capsule {
+    transition: none;
+  }
+  .particle-burst-layer {
+    display: none;
+  }
+}
